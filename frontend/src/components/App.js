@@ -1,15 +1,18 @@
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+
 import "../styles/App.css";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
+
+import Home from "./Home";
 
 function App() {
   return (
-    <Container>
-      <Row>
-        <Button variant="primary">Primary</Button>
-      </Row>
-    </Container>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/">
+          <Home />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
