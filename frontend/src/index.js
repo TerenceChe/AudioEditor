@@ -5,11 +5,28 @@ import "./styles/index.css";
 import App from "./components/App";
 import reportWebVitals from "./reportWebVitals";
 
+import { Provider } from "react-redux";
+import store from "./util/Store";
+
+// testing redux
+// store.dispatch({
+//   type: "fileUploaded",
+//   payload: {
+//     file: "just testing",
+//   },
+// });
+
+// store.subscribe(() => {
+//   console.log("Store Changed!", store.getState());
+// })
+
+// console.log(store.getState());
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
