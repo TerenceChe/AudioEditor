@@ -110,7 +110,7 @@ dist
 # TernJS port file
 .tern-port
 
-# Visual Studio Code # 
+# Visual Studio Code
 .vscode/* 
 !.vscode/settings.json 
 !.vscode/tasks.json 
@@ -118,4 +118,5 @@ dist
 !.vscode/extensions.json 
 .history
 
-config.py
+# Python Virtual Environment
+.venv
