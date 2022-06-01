@@ -8,3 +8,12 @@ export function uploadFile(data) {
     },
   };
 }
+
+export function uploadAudioData(data) {
+  return {
+    type: actions.AUDIO_DATA_UPLOADED,
+    payload: {
+      audioData: data,
+    },
+  };
+}

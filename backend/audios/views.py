@@ -18,13 +18,13 @@ def audioList(request, format=None):
 
     if request.method == 'POST':
         # request.data shuold be an audio file that we convert to json of words, and a file path or actual file
-        # serializer = AudioSerializer(data = request.data)
+        data = handleFile(request.FILES['file'])
+        # serializer = AudioSerializer(data = data)
         # if serializer.is_valid():
         #     serializer.save()
         #     return Response(serializer.data, status=status.HTTP_201_CREATED)
-        print(request.data)
-        handleFile(request.FILES['file'])
-        return Response(status=status.HTTP_201_CREATED)
+        
+        return Response(data = data, status=status.HTTP_201_CREATED)
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def audioDetail(request, id, format=None):
@@ -45,8 +45,6 @@ def handleFile(file):
     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'C:/coding/audio-editor-key.json'
     speechClient = speech.SpeechClient()
 
-    print("a")
-
     byteData = file.read()
     audio = speech.RecognitionAudio(content=byteData)
 
@@ -65,17 +63,20 @@ def handleFile(file):
     for result in result.results:
         alternative = result.alternatives[0]
         # whole transcript
-        print("Transcript: {}".format(alternative.transcript))
+        # print("Transcript: {}".format(alternative.transcript))
         # confidence level
         # print("Confidence: {}".format(alternative.confidence))
-
+        data = {}
         for word_info in alternative.words:
             word = word_info.word
             start_time = word_info.start_time
             end_time = word_info.end_time
 
-            print(
-                f"Word: {word}, start_time: {start_time.total_seconds()}, end_time: {end_time.total_seconds()}"
-            )
+            # print(
+            #     f"Word: {word}, start_time: {start_time.total_seconds()}, end_time: {end_time.total_seconds()}"
+            # )
+            data[word] = [start_time.total_seconds(), end_time.total_seconds()]
 
-        print(alternative.words)
+        # print(data)
+        # print(type(data))
+        return data
