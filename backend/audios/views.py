@@ -7,7 +7,6 @@ from rest_framework import status
 
 import os
 from google.cloud import speech
-from dotenv import load_dotenv
 
 @api_view(['GET', 'POST'])
 def audioList(request, format=None):
@@ -62,21 +61,12 @@ def handleFile(file):
 
     for result in result.results:
         alternative = result.alternatives[0]
-        # whole transcript
-        # print("Transcript: {}".format(alternative.transcript))
-        # confidence level
-        # print("Confidence: {}".format(alternative.confidence))
         data = {}
-        for word_info in alternative.words:
+        for i in range(len(alternative.words)):
+            word_info = alternative.words[i]
             word = word_info.word
             start_time = word_info.start_time
             end_time = word_info.end_time
+            data[i] = [word, start_time.total_seconds(), end_time.total_seconds()]
 
-            # print(
-            #     f"Word: {word}, start_time: {start_time.total_seconds()}, end_time: {end_time.total_seconds()}"
-            # )
-            data[word] = [start_time.total_seconds(), end_time.total_seconds()]
-
-        # print(data)
-        # print(type(data))
         return data

@@ -1,27 +1,34 @@
 import React from "react";
-import Button from "react-bootstrap/esm/Button";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
 
-import store from "../util/Store";
+import { useSelector } from "react-redux";
 
 import "../styles/Edit.css";
 
-class Edit extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
+function Edit() {
+  const data = useSelector((state) => state);
 
-  handleClick(event) {
-    console.log(store.getState());
-  }
+  const renderObject = (data) => {
+    return Object.entries(data).map(([key, value], i) => {
+      return (
+        <div key={key}>
+          {value[0]}: {value[1]} - {value[2]}
+        </div>
+      );
+    });
+  };
 
-  render() {
-    return (
-      <div>
-        <Button onClick={this.handleClick}></Button>
-      </div>
-    );
-  }
+  return (
+    <Container>
+      <Row>
+        <p>{data.file.name}</p>
+      </Row>
+      <Row>
+        <p>{renderObject(data.audioData)}</p>
+      </Row>
+    </Container>
+  );
 }
 
 export default Edit;
