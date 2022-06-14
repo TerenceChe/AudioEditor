@@ -1,0 +1,5 @@
+.selected {
+  background-image: linear-gradient(to right, #f27121cc, #e94057cc, #8a2387cc);
+  border-radius: 6px;
+  padding: 3px 6px;
+}
