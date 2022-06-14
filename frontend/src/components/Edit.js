@@ -15,9 +15,6 @@ function Edit() {
   const [isActive, setActive] = useState(newArr);
 
   const [audio, setAudio] = useState(null);
-  const [trackIndex, setTrackIndex] = useState(0);
-  const [trackProgress, setTrackProgress] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     var audio = new Audio(URL.createObjectURL(data.file));
