@@ -25,20 +25,28 @@ def audioList(request, format=None):
         
         return Response(data = data, status=status.HTTP_201_CREATED)
 
-@api_view(['GET', 'PUT', 'DELETE'])
-def audioDetail(request, id, format=None):
-    try:
-        audio = AudioData.objects.get(pk=id)
-    except AudioData.DoesNotExist:
-        return Response(status = status.HTTP_404_NOT_FOUND)
+@api_view(['POST'])
+def newAudio(request, format = None):
+    if request.method =='POST':
+        print(request.FILES['file'])
+        print(request.POST.getlist('times'))
+    return Response(request.POST.get('times'), status = status.HTTP_201_CREATED)
 
-    if request.method == 'GET':
-        serializer = AudioSerializer(audio)
-        return Response(serializer.data)
-    if request.method == 'PUT':
-        pass
-    if request.method == 'DELETE':
-        pass
+
+# @api_view(['GET', 'PUT', 'DELETE'])
+# def audioDetail(request, id, format=None):
+#     try:
+#         audio = AudioData.objects.get(pk=id)
+#     except AudioData.DoesNotExist:
+#         return Response(status = status.HTTP_404_NOT_FOUND)
+
+#     if request.method == 'GET':
+#         serializer = AudioSerializer(audio)
+#         return Response(serializer.data)
+#     if request.method == 'PUT':
+#         pass
+#     if request.method == 'DELETE':
+#         pass
 
 def handleFile(file):
     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'C:/coding/audio-editor-key.json'
@@ -70,3 +78,7 @@ def handleFile(file):
             data[i] = [word, start_time.total_seconds(), end_time.total_seconds()]
 
         return data
+
+def modifyAudio(file, list):
+    byteData = file.read()
+    print(list)
