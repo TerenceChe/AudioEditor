@@ -5,6 +5,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
+from django.http import FileResponse
+from pydub import AudioSegment
 import os
 from google.cloud import speech
 
@@ -28,9 +30,22 @@ def audioList(request, format=None):
 @api_view(['POST'])
 def newAudio(request, format = None):
     if request.method =='POST':
-        print(request.FILES['file'])
-        print(request.POST.getlist('times'))
-    return Response(request.POST.get('times'), status = status.HTTP_201_CREATED)
+        print(type(request.FILES['file']))
+        audio = AudioSegment.from_file(request.FILES['file'], "mp3")
+        times = request.POST.getlist('times')
+        wholeAudio = None
+        for i in range(len(times)):
+            times[i] = times[i].split(',')
+            times[i][0] = float(times[i][0])
+            times[i][1] = float(times[i][1])
+            extracted = audio[times[i][0]*1000:times[i][1]*1000]
+            if wholeAudio == None:
+                wholeAudio = extracted
+            else:
+                wholeAudio += extracted
+        print(times)
+        wholeAudio.export("newAudio.mp3", format = "mp3")
+    return FileResponse(open("newAudio.mp3", "rb"))
 
 
 # @api_view(['GET', 'PUT', 'DELETE'])

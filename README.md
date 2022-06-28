@@ -1,5 +1,7 @@
 # AudioEditor
 
+install ffmpeg: https://ffmpeg.org/download.html
+
 Start the backend:
 
 ```

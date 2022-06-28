@@ -79,7 +79,7 @@ function Edit() {
     try {
       axios
         .post("http://localhost:8000/audio/submit/", formData)
-        .then((response) => console.log(response.data));
+        .then((response) => console.log(typeof response.data));
     } catch (err) {
       console.error(err);
     }
